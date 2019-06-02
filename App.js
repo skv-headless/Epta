@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View , TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View , TextInput, TouchableOpacity } from 'react-native';
 
 export default class App extends React.Component {
   constructor() {
@@ -18,7 +18,6 @@ export default class App extends React.Component {
     // debugger
     const newIndex = (this.state.currentPlayerIndex + 1) % this.state.players.length;
     this.setState({currentPlayerIndex: newIndex, players: this.newPlayers(toAdd), points: null});
-
   }
 
   newPlayers = (toAdd) => {
@@ -42,17 +41,19 @@ export default class App extends React.Component {
         {this.state.currentPlayerIndex === null ? (
           <View>
             <TextInput
+              autoFocus
+              key={this.state.currentPlayerIndex}
               value={this.state.name}
               onChangeText={ (name) => this.setState({ name }) }
               style={styles.input}
               onSubmitEditing={ this.addPlayer }
               />
               <View style={{ height: 40 }}/>
-            <Button
-              style={styles.button}
-              title='Start'
-              onPress={() => this.setState({currentPlayerIndex:0})}
-            />
+            <TouchableOpacity
+              style={styles.customBtnBG}
+              onPress={() => this.setState({currentPlayerIndex:0})}>
+              <Text style={styles.customBtnText}>START</Text>
+            </TouchableOpacity>
           </View>
         ) :
           <TextInput
@@ -86,7 +87,15 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize:35,
   },
-  button: {
-    width: 150,
+  customBtnBG: {
+    backgroundColor: "#007aff",
+    paddingHorizontal: 30,
+    paddingVertical: 5,
+    borderRadius: 30
+  },
+  customBtnText: {
+    fontSize: 30,
+    fontWeight: '400',
+    color: "#fff",
   },
 });
